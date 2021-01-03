@@ -1,149 +1,229 @@
-#include <stdio.h>
 #include <stdlib.h>
-
-struct Node
+#include<stdio.h>
+#include <string.h>
+struct node
 {
-	int data;
-	struct Node *next;
+    int sem;
+    struct node *next;
 };
-struct Node *head_ref;
-struct Node *head2;
-struct Node *head3;
-
-
-void push(struct Node *head, int new_data) {
-	struct Node *new_node = (struct Node*)malloc(sizeof(struct Node));
-	new_node->data = new_data;
-	new_node->next = NULL;
-	if(head == NULL) {
-		head = new_node;
-	}
-	else {
-		new_node->next = head;
-		head = new_node;
-	}
+struct node *head= NULL;
+struct node *head2= NULL;
+int c=0;
+void Insert()
+{
+	struct node *newnode;
+	struct node *temp;
+    int s;
+    printf("Enter integer  : ");
+    scanf("%d",&s);
+    newnode=(struct node*)malloc(sizeof(struct node));
+    newnode->sem =s;
+    if (head==NULL)
+    { 
+      newnode->next=NULL;
+      head=newnode; 
+      
+      c++;
+    }
+     else 
+     {
+		temp=head;
+        while(temp->next!=NULL)
+        {
+			temp=temp->next;
+        }
+		temp->next=newnode;
+		newnode->next=NULL;
+		c++;
+	 }  
+}
+void Insert2()
+{
+	struct node *newnode;
+	struct node *temp;
+    int s,y;
+    printf("enter elements to create list 2\n");
+    do
+    {
+    printf("Enter integer  : \n");
+    scanf("%d",&s);
+    newnode=(struct node*)malloc(sizeof(struct node));
+    newnode->sem =s;
+    if (head2==NULL)
+    { 
+      newnode->next=NULL;
+      head2=newnode; 
+      c++;
+    }
+     else 
+     {
+		temp=head2;
+        while(temp->next!=NULL)
+        {
+			temp=temp->next;
+        }
+		temp->next=newnode;
+		newnode->next=NULL;
+		c++;
+		printf("Node created\n");
+	 } 
+	 printf("do you want to continue adding:1(yes)  or  0(no)\n");
+	 scanf("%d",&y);
+    }while(y!=0);
 }
 
 
-void append(struct Node *head, int new_data) {
-	struct Node *new_node = (struct Node*)malloc(sizeof(struct Node));
-	struct Node *last = head;
-	new_node->data = new_data;
-	new_node->next = NULL;
-	if (head == NULL){
-		head = new_node;
-		return;
-	}
-	while(last->next != NULL) {
-		last = last->next;
-	}
-	last->next = new_node;
+void bubbleSort() 
+{ 
+    int swapped; 
+    struct node *ptr1; 
+    struct node *lptr = NULL; 
+  
+
+    if (head == NULL) 
+        return; 
+  
+    do
+    { 
+        swapped = 0; 
+        ptr1 = head; 
+  
+        while (ptr1->next != lptr) 
+        { 
+            if (ptr1->sem > ptr1->next->sem) 
+            {  
+                int temp = ptr1->sem; 
+                ptr1->sem = ptr1->next->sem; 
+                ptr1->next->sem = temp; 
+                swapped = 1; 
+            } 
+            ptr1 = ptr1->next; 
+        } 
+        lptr = ptr1; 
+    } 
+    while (swapped); 
 }
 
-
-void pop(struct Node *head) {
-	struct Node *ptr = head;
-	if(head == NULL){
-		printf("\nList is empty.");
-	}
-	else {
-		head = ptr->next;
-		ptr->next = NULL;
-		free(ptr);
-	}
+void reverse()
+{
+    struct node* prev = NULL;
+    struct node* current = head;
+    struct node* next ;
+    while (current != NULL) {
+        next = current->next;
+        current->next = prev;
+        prev = current;
+        current = next;
+    }
+    head= prev;
 }
 
-void reverse(struct node *head) {
-	struct Node *next_ptr = NULL;
-	struct Node *prev = NULL;
-	struct Node *current = head;
-	while(current != NULL) {
-		next_ptr = current -> next;
-		current -> next = prev;
-		prev = current;
-		current = next_ptr;
-	}
-	head = prev;
+void concat()
+{
+        struct node *ptr;
+        if(head==NULL)
+        {
+                head=head2;
+        }
+        if(head2==NULL)
+               {
+               	head2=head;
+               }
+        ptr=head;
+        while(ptr->next!=NULL)
+                ptr=ptr->next;
+        ptr->next=head2;
 }
-
-
-struct Node* concat(struct Node *headref2, struct Node *headref3) {
-	struct Node* temp;
-	if(headref2 == NULL){
-		return headref3;
-	}
-	else if(headref3 == NULL) {
-		return headref2;
-	}
-
-	temp = headref2;
-	while(temp -> next != NULL){
-		temp = temp -> next;
-	}
-	ptr -> link = headref3;
-	return headref2;
-}
-
-
-void display(struct Node *head) {
-	struct Node *node = head;
-	if (head == NULL)
+void display1()
+{
+	struct node *ptr;
+    ptr=head;
+    int i=1;
+     
+    if(ptr==NULL)
+    {
+        printf("Linked list is empty!\n");
+    }
+    else
 	{
-		printf("\nList is Empty.");	
-	}
-	while(node != NULL) {
-		printf("\n%d ", node->data);
-		node = node->next;
-	}
-}
+        while(ptr!= NULL)
+        {
+			printf(" %d",ptr->sem);
+			i++;
+			ptr=ptr->next;
+        }
+       
+    }
+    
+}	
+void display2()
+{
+	struct node *ptr;
+    ptr=head2;
+    int i=1;
+     
+    if(ptr==NULL)
+    {
+        printf("Linked list is empty!\n");
+    }
+    else
+	{
+        while(ptr!= NULL)
+        {
+			
+	
+			printf(" %d",ptr->sem);
+			printf("\n");
+			i++;
+			ptr=ptr->next;
+        }
+       
+    }
+    
+}	
 
-
-int main() {
-	int x;
-	int data;
-	int ll;
-	do {
+int main()
+{
+    int x;
+    do
+    {
 		printf("\n------MENU------");
-		printf("\n1. Push");
-		printf("\n2. Enqueue");
-		printf("\n3. Pop");
-		printf("\n4. Dequeue");
-		printf("\n5. Reverse");
-		printf("\n6. Display.");
-		printf("\n7. Exit");
+		printf("\n1. Insert");
+		printf("\n2. Sort");
+		printf("\n3. Reverse");
+		printf("\n4. Concatenate");
+		printf("\n5. Exit");
 		printf("\n\nEnter your choice: ");
-		scanf("%d", &x);
-		switch(x) {
-			case 1: printf("\nEnter data to be inserted: ");
-					scanf("%d", &data);
-					printf("\nSelect Linked List to Push to: ");
-					scanf("%d", &ll);
-					switch(ll){
-						case 1: push(&head_ref, data);
-						break;
-						case 2: push(&head2, data);
-						break;
-						case 3: push(&head3, data);
-						break;
-					}
-					push(data);
-					break;
-			case 2: printf("\nEnter data to be inserted: ");
-					scanf("%d", &data);
-					append(data);
-					break;
-			case 3: pop();
-					break;
-			case 4: pop();
-					break;
-			case 5: reverse();
-					break;
-			case 6: display();
-					break;
-			case 7: exit(0);
-					break;
-			default: printf("\nInvalid option entered.");
+		scanf("%d",&x);
+		switch(x)
+		{
+			case 1: 
+			Insert(); 
+			break;
+			
+			case 2:
+			bubbleSort();
+			display1();
+			break;
+			
+			case 3: 
+			reverse();
+			display1();
+			break;
+			
+			case 4: 
+		    Insert2();
+		    concat();
+		    display1();
+			break;
+			
+			case 5: exit(0);
+			break;
+			
+			default:
+			printf("Invalid Option\n");
+			break;
 		}
-	} while(x >= 1 && x <= 7);
+	}while(x >= 1 && x <= 5);
 	return 0;
 }
